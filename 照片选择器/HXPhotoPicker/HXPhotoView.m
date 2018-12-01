@@ -507,8 +507,9 @@ static NSString *HXPhotoSubViewCellId = @"photoSubViewCellId";
         }
     }else if (model.type == HXPhotoModelMediaTypeCameraVideo) {
         // 当选中视频个数没有达到最大个数时就添加到选中数组中 
-        if (model.videoDuration < 3) {
-            [[self hx_viewController].view showImageHUDText:[NSBundle hx_localizedStringForKey:@"视频少于3秒,无法选择"]];
+        if (model.videoDuration < self.manager.configuration.videoMinDuration) {
+            NSString *tip = [NSString stringWithFormat:[NSBundle hx_localizedStringForKey:@"视频少于%ld秒,无法选择"], (NSInteger)self.manager.configuration.videoMinDuration];
+            [[self hx_viewController].view showImageHUDText:tip];
             return;
         }else if (model.videoDuration > self.manager.configuration.videoMaxDuration) {
             [[self hx_viewController].view showImageHUDText:[NSBundle hx_localizedStringForKey:@"视频过大,无法选择"]];

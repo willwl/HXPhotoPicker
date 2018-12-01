@@ -1051,14 +1051,14 @@
         }
     }
     if (model.type == HXPhotoModelMediaTypeVideo) {
-        if (model.asset.duration < 3) {
-            return [NSBundle hx_localizedStringForKey:@"视频少于3秒,无法选择"];
+        if (model.asset.duration < self.configuration.videoMinDuration) {
+            return [NSString stringWithFormat:[NSBundle hx_localizedStringForKey:@"视频少于%ld秒,无法选择"], (NSInteger)self.configuration.videoMinDuration];
         }else if (model.asset.duration >= self.configuration.videoMaxDuration + 1) {
             return [NSBundle hx_localizedStringForKey:@"视频过大,无法选择"];
         }
     }else if (model.type == HXPhotoModelMediaTypeCameraVideo) {
-        if (model.videoDuration < 3) {
-            return [NSBundle hx_localizedStringForKey:@"视频少于3秒,无法选择"];
+        if (model.videoDuration < self.configuration.videoMinDuration) {
+            return [NSString stringWithFormat:[NSBundle hx_localizedStringForKey:@"视频少于%ld秒,无法选择"], (NSInteger)self.configuration.videoMinDuration];
         }else if (model.videoDuration >= self.configuration.videoMaxDuration + 1) {
             return [NSBundle hx_localizedStringForKey:@"视频过大,无法选择"];
         }

@@ -398,6 +398,11 @@ typedef NS_ENUM(NSUInteger, HXPhotoAlbumShowMode) {
 @property (copy, nonatomic) NSString *customAlbumName;
 
 /**
+ *  视频小于秒数的不能选择  -  默认 0
+ */
+@property (assign, nonatomic) NSTimeInterval videoMinDuration;
+
+/**
  *  视频能选择的最大秒数  -  默认 3分钟/180秒
  */
 @property (assign, nonatomic) NSTimeInterval videoMaxDuration;
