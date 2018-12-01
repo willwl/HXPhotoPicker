@@ -909,14 +909,27 @@
     }];
 }
 
++ (NSString *)extensionWithAVURLAssets:(AVURLAsset *)urlAssets {
+    if (![urlAssets isKindOfClass:[AVURLAsset class]]) {
+        return @"mp4";
+    }
+    NSURL *url = urlAssets.URL;
+    NSString *extension = [url pathExtension];
+    if (extension.length) {
+        return extension;
+    }
+    return @"mp4";
+}
+
 + (PHImageRequestID)getExportSessionWithPHAsset:(PHAsset *)phAsset deliveryMode:(PHVideoRequestOptionsDeliveryMode)deliveryMode presetName:(NSString *)presetName startRequestIcloud:(void (^)(PHImageRequestID cloudRequestId))startRequestIcloud progressHandler:(void (^)(double progress))progressHandler completion:(void(^)(AVAssetExportSession * exportSession, NSDictionary *info))completion failed:(void(^)(NSDictionary *info))failed {
 //    AVAssetExportPresetHighestQuality
     PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+    options.version = PHImageRequestOptionsVersionCurrent;
     options.deliveryMode = deliveryMode;
-    options.networkAccessAllowed = NO;
+    options.networkAccessAllowed = YES;
     
     return [[PHImageManager defaultManager] requestExportSessionForVideo:phAsset options:options exportPreset:presetName resultHandler:^(AVAssetExportSession * _Nullable exportSession, NSDictionary * _Nullable info) {
-        // 是否成功
+        
         BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]);
         if (downloadFinined && exportSession) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -959,9 +972,20 @@
                     }
                 });
             }else {
+                
+                NSString *extension = [self extensionWithAVURLAssets:(AVURLAsset *)exportSession.asset];
+                if (!exportSession || [extension isEqualToString:AVFileType3GPP]) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (failed) {
+                            failed(info);
+                        }
+                    });
+                    return;
+                }
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if (failed) {
-                        failed(info);
+                    if (completion) {
+                        completion(exportSession, info);
                     }
                 });
             }
