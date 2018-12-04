@@ -317,6 +317,8 @@ typedef void (^HXPhotoViewLongGestureRecognizerEndedBlock)(UILongPressGestureRec
 @property (assign, nonatomic) BOOL previewShowDeleteButton;
 /**  已选的image数组  */
 @property (strong, nonatomic) NSMutableArray *imageList;
+/**  图片显示属性 */
+@property (strong, nonatomic) NSDictionary *imageLayerProps;
 /**  添加按钮的图片  */
 @property (copy, nonatomic) NSString *addImageName;
 /**  删除按钮图片  */

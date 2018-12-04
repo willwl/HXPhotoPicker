@@ -274,6 +274,9 @@ static NSString *HXPhotoSubViewCellId = @"photoSubViewCellId";
     if (self.deleteImageName) {
         cell.deleteImageName = self.deleteImageName;
     }
+    if (self.imageLayerProps) {
+        cell.imageLayerProps = self.imageLayerProps;
+    }
     cell.model = self.dataList[indexPath.item];
     cell.showDeleteNetworkPhotoAlert = self.showDeleteNetworkPhotoAlert;
     cell.hideDeleteButton = self.hideDeleteButton;

@@ -35,6 +35,8 @@
 @property (strong, nonatomic) HXPhotoModel *model;
 /**  删除按钮图片  */
 @property (copy, nonatomic) NSString *deleteImageName;
+/**  按钮图片属性  */
+@property (strong, nonatomic) NSDictionary *imageLayerProps;
 /**  隐藏cell上的删除按钮  */
 @property (assign, nonatomic) BOOL hideDeleteButton;
 /**

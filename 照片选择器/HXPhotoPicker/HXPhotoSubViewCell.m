@@ -144,6 +144,17 @@
     _deleteImageName = deleteImageName;
     [self.deleteBtn setImage:[HXPhotoTools hx_imageNamed:deleteImageName] forState:UIControlStateNormal];
 }
+
+- (void)setImageLayerProps:(NSDictionary *)imageLayerProps {
+    _imageLayerProps = imageLayerProps;
+    if (imageLayerProps) {
+        __block CALayer *layer = _imageView.layer;
+        [imageLayerProps enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            [layer setValue:obj forKeyPath:key];
+        }];
+    }
+}
+
 - (void)resetNetworkImage {
     if (self.model.networkPhotoUrl &&
         self.model.type == HXPhotoModelMediaTypeCameraPhoto) {
